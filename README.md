@@ -22,7 +22,7 @@ Here is what i did:
 - plot the bar plot, for the country vs population
 
 
-## 2. Weather Data analysis with pandas
+## 3. Weather Data analysis with pandas
 
 We did the data analysis on the weather dataset have the columns :weather, wind_speed, humidity, temperature, visibility and datetime.
 

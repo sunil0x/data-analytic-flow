@@ -167,3 +167,114 @@ Possible extensions to this project:
 - **Inspiration**: Walmart’s business case studies on sales and supply chain optimization.
 
 ---
+
+
+## 5. Data Analysis of the Pizza Sales using SQL
+
+
+In this project,at first we get the dataset from the github and extract it. We have mainly four csv files:pizza, pizza_types, orders and order_details.
+
+We created each table using query:
+### 1. Table creating the for the pizza
+```sql
+CREATE TABLE pizza(
+pizza_id text,
+pizza_type_id text,
+size text,
+price decimal(10,2)
+);
+
+```
+
+import the dataset csv from the folder and load it,now we can get the datset in our table.Similarly for another table as:
+
+### 2. Table creating the for the pizza_types
+
+```sql
+-- creating the table pizza_types
+CREATE TABLE pizza_types(
+pizza_type_id text,
+name text,
+category text,
+ingredients text
+);
+```
+
+### 3. Table creating the for the orders
+
+```sql
+CREATE TABLE orders(
+order_id int primary key,
+date date not null,
+time time not null
+);
+
+```
+
+### 3. Table creating the for the orders_details
+```sql
+CREATE TABLE order_details(
+order_details_id int primary key,
+order_id int not null,
+pizza_id text not null,
+quantity int not null
+);
+```
+
+
+## Basic Questions solved:
+
+
+### 1. Retrieve the total number of the order placed:
+
+```sql
+SELECT COUNT(*) as total_order
+FROM orders;
+
+```
+
+### 2. Calculate the total revenue generated from pizza sales:
+
+```sql
+SELECT SUM(p.price*od.quantity) as total_renenue
+FROM pizza p
+JOIN order_details od
+ON p.pizza_id = od.pizza_id;
+
+```
+
+### 3. Identify the highest-priced pizza.
+```sql
+SELECT ptypes.name, p.price as high_price
+FROM pizza p
+INNER JOIN pizza_types ptypes
+ON p.pizza_type_id = ptypes.pizza_type_id
+order by p.price desc
+limit 1;
+```
+
+### 4. Identify the most common pizza size ordered:
+```sql
+SELECT COUNT(od.order_id) as sales_count,p.size FROM pizza p
+JOIN order_details od ON
+p.pizza_id = od.pizza_id
+GROUP BY p.size
+order by sales_count desc
+limit 1
+```
+
+
+### 5. List the top 5 most ordered pizza types along with their quantities.
+
+```sql
+ SELECT ptypes.name, sum(od.quantity) as quantity
+FROM pizza_types ptypes 
+JOIN pizza p ON 
+p.pizza_type_id = ptypes.pizza_type_id
+JOIN order_details od
+ON od.pizza_id = p.pizza_id
+group by ptypes.name
+order by quantity desc
+limit 5;
+```
+
